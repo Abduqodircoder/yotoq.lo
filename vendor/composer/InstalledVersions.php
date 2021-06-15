@@ -24,12 +24,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '2.0.42',
-    'version' => '2.0.42.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'fb55b0957e9348d6549902cf8c9e0e6578b708f9',
     'name' => 'yiisoft/yii2-app-advanced',
   ),
   'versions' => 
@@ -42,15 +42,6 @@ private static $installed = array (
       array (
       ),
       'reference' => '2391482cd003dfdc36b679b27e9f5326bd656acd',
-    ),
-    'bower-asset/bootstrap' => 
-    array (
-      'pretty_version' => 'v3.4.1',
-      'version' => '3.4.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '68b0d231a13201eb14acd3dc84e51543d16e5f7e',
     ),
     'bower-asset/inputmask' => 
     array (
@@ -244,6 +235,15 @@ private static $installed = array (
       array (
         0 => '1.10.2',
       ),
+    ),
+    'npm-asset/bootstrap' => 
+    array (
+      'pretty_version' => '4.6.0',
+      'version' => '4.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => NULL,
     ),
     'opis/closure' => 
     array (
@@ -761,21 +761,21 @@ private static $installed = array (
     ),
     'yiisoft/yii2-app-advanced' => 
     array (
-      'pretty_version' => '2.0.42',
-      'version' => '2.0.42.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'fb55b0957e9348d6549902cf8c9e0e6578b708f9',
     ),
-    'yiisoft/yii2-bootstrap' => 
+    'yiisoft/yii2-bootstrap4' => 
     array (
       'pretty_version' => '2.0.10',
       'version' => '2.0.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '073c9ab0a4eb71f2485d84c96a1967130300d8fc',
+      'reference' => 'e6d0e58f43d3910129d554ac183aac17f65be639',
     ),
     'yiisoft/yii2-composer' => 
     array (

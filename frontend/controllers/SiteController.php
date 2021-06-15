@@ -1,6 +1,10 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Department;
+use common\models\District;
+use common\models\Dormitory;
+use common\models\Student;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -14,6 +18,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -74,7 +79,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $all = $this->countAllStudent();
+
+        $applied = $this->countAppliedStudent();
+
+        $prosessing = $this->countProsessingStudent();
+        $model = new Student();
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->pas_pic = UploadedFile::getInstance($model,'pas_pic');
+            $model->basis_path = UploadedFile::getInstance($model, 'basis_path');
+            $model->application_path = UploadedFile::getInstance($model,'application_path');
+            $model->self_pic = UploadedFile::getInstance($model, 'self_pic');
+
+//            echo "<pre>";
+//            print_r($model->application_path->extension);exit;
+            if ($model->upload()){
+                Yii::$app->session->setFlash('success','Arizangiz muvoffaqiyatli qabul qilindi. SMS orqali javob hati yuboriladi');
+                $model->save();
+            }
+            return $this->redirect(['site/index']);
+//            echo "<pre>";
+//            print_r($model->getErrors());exit;
+
+        }
+
+
+        return $this->render('index',['all' => $all,
+            'applied' => $applied,
+            'prosessing' => $prosessing,
+            'model' => $model
+        ]);
     }
 
     /**
@@ -137,12 +172,14 @@ class SiteController extends Controller
 
     /**
      * Displays about page.
-     *
+     * @param int $id
      * @return mixed
      */
-    public function actionAbout()
+    public function actionAbout($id)
     {
-        return $this->render('about');
+        $model = Dormitory::find()->where(['id' => $id])->one();
+
+        return $this->render('about',['model' => $model]);
     }
 
     /**
@@ -256,5 +293,55 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    /***
+     * @param $id
+     */
+    public function actionDepartmentlists($id)
+    {
+        $models = Department::find()->where(['faculty_id' =>$id])->all();
+        if (!empty($models))
+        {
+            foreach ($models as $model){
+                echo "<option value = '$model->id'>$model->name</option>";
+        }
+
+        }
+        else{
+            echo "<option value =''>--Bo'lim tanlang--</option>";
+        }
+
+    }
+    /***
+     * @param $id
+     */
+    public function actionDistrictlists($id)
+    {
+        $models = District::find()->where(['region_id' =>$id])->all();
+        if (!empty($models))
+        {
+            foreach ($models as $model){
+                echo "<option value = '$model->id'>$model->name</option>";
+        }
+
+        }
+        else{
+            echo "<option value =''>--Bo'lim tanlang--</option>";
+        }
+
+    }
+
+    protected function countAllStudent()
+    {
+        return Student::find()->count('id');
+    }
+    protected function countAppliedStudent()
+    {
+        return Student::find()->where(['status' => 1])->count('id');
+    }
+    protected function countProsessingStudent()
+    {
+        return Student::find()->where(['status' => 0])->count('id');
     }
 }
